@@ -1,0 +1,64 @@
+﻿<Window x:Class="CCTVTester.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF"
+        xmlns:local="clr-namespace:CCTVTester"
+        mc:Ignorable="d"
+        Title="CCTV LiveView Tester" Height="757.333" Width="945.833" Loaded="Window_Loaded" Closing="Window_Closing">
+    <Grid>
+        <Label Content="CCTV Liveview Tester" HorizontalAlignment="Left" Margin="1,1,0,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
+        <Label Content="CCTV1 (PTX)" HorizontalAlignment="Left" Margin="1,35,0,0" VerticalAlignment="Top" Height="23" Background="{x:Null}"/>
+        <TextBox x:Name="tbx_rtsp1" HorizontalAlignment="Left" Height="23" Margin="76,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="263"/>
+        <Label Content="CCTV2" HorizontalAlignment="Left" Margin="1,60,0,0" VerticalAlignment="Top" Height="23" Background="{x:Null}"/>
+        <TextBox x:Name="tbx_rtsp2" HorizontalAlignment="Left" Height="23" Margin="76,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="263"/>
+        <Label Content="CCTV3" HorizontalAlignment="Left" Margin="1,85,0,0" VerticalAlignment="Top" Height="23" Background="{x:Null}"/>
+        <TextBox x:Name="tbx_rtsp3" HorizontalAlignment="Left" Height="23" Margin="76,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="263"/>
+        <Label Content="CCTV4" HorizontalAlignment="Left" Margin="1,110,0,0" VerticalAlignment="Top" Height="23" Background="{x:Null}"/>
+        <TextBox x:Name="tbx_rtsp4" HorizontalAlignment="Left" Height="23" Margin="76,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="263"/>
+        <Label Content="CCTV5" HorizontalAlignment="Left" Margin="1,135,0,0" VerticalAlignment="Top" Height="23" Background="{x:Null}"/>
+        <TextBox x:Name="tbx_rtsp5" HorizontalAlignment="Left" Height="23" Margin="76,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="263"/>
+        <Label Content="CCTV6" HorizontalAlignment="Left" Margin="1,160,0,0" VerticalAlignment="Top" Height="23" Background="{x:Null}"/>
+        <TextBox x:Name="tbx_rtsp6" HorizontalAlignment="Left" Height="23" Margin="76,165,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="263"/>
+
+        <Grid Margin="6,230,602,431" Width="330">
+            <Button x:Name="btn_left" Content="[1] left" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Click="PTZButton_Left_Click"/>
+            <Button x:Name="btn_right" Content="[1] right" HorizontalAlignment="Left" Margin="80,0,0,0" VerticalAlignment="Top" Width="74" Click="PTZButton_Right_Click" />
+            <Button x:Name="btn_up" Content="[1] up" HorizontalAlignment="Left" Margin="161,0,0,0" VerticalAlignment="Top" Width="74" Click="PTZButton_Up_Click" />
+            <Button x:Name="btn_down" Content="[1] down" HorizontalAlignment="Left" Margin="241,0,0,0" VerticalAlignment="Top" Width="74" Click="PTZButton_Down_Click" />
+            <Button x:Name="btn_zoomin" Content="[1] zoom in" HorizontalAlignment="Left" Margin="0,25,0,0" VerticalAlignment="Top" Width="74" Click="PTZButton_In_Click"/>
+            <Button x:Name="btn_zoomout" Content="[1] zoom out" HorizontalAlignment="Left" Margin="80,25,0,0" VerticalAlignment="Top" Width="74" Click="PTZButton_Out_Click" />
+            <Button x:Name="btn_reset" Content="[1] reset" HorizontalAlignment="Left" Margin="162,26,0,0" VerticalAlignment="Top" Width="74" Click="PTZButton_Reset_Click"/>
+        </Grid>
+
+        <RichTextBox x:Name="tbx_log" HorizontalAlignment="Left" Height="232" VerticalAlignment="Top" Width="560" Margin="347,11,0,0" Background="#FFF7F7F7" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" >
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text=""/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+
+        <Grid x:Name="StreamsGrid" Margin="12,290,26,21" Height="400" Width="900">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="200"/>
+                <RowDefinition Height="200"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+            <vlc:VideoView x:Name="VideoView1" Grid.Row="0" Grid.Column="0" Margin="4" />
+            <vlc:VideoView x:Name="VideoView2" Grid.Row="0" Grid.Column="1" Margin="4" />
+            <vlc:VideoView x:Name="VideoView3" Grid.Row="0" Grid.Column="2" Margin="4" />
+            <vlc:VideoView x:Name="VideoView4" Grid.Row="1" Grid.Column="0" Margin="4" />
+            <vlc:VideoView x:Name="VideoView5" Grid.Row="1" Grid.Column="1" Margin="4" />
+            <vlc:VideoView x:Name="VideoView6" Grid.Row="1" Grid.Column="2" Margin="4" />
+        </Grid>
+        <Button x:Name="btn_connect" Content="Connect" HorizontalAlignment="Left" Margin="6,194,0,0" VerticalAlignment="Top" Width="74" Click="btn_connect_Click"/>
+        <Button x:Name="btn_disconnect" Content="Disconnect" HorizontalAlignment="Left" Margin="87,194,0,0" VerticalAlignment="Top" Width="74" Click="btn_disconnect_Click"/>
+
+    </Grid>
+</Window>

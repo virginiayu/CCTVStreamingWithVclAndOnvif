@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.36422.26
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCTVTester", "CCTVTester\CCTVTester.csproj", "{EC376F27-2B64-4515-8357-1121134BFE5E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EC376F27-2B64-4515-8357-1121134BFE5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC376F27-2B64-4515-8357-1121134BFE5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC376F27-2B64-4515-8357-1121134BFE5E}.Debug|x64.ActiveCfg = Debug|x64
+		{EC376F27-2B64-4515-8357-1121134BFE5E}.Debug|x64.Build.0 = Debug|x64
+		{EC376F27-2B64-4515-8357-1121134BFE5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC376F27-2B64-4515-8357-1121134BFE5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC376F27-2B64-4515-8357-1121134BFE5E}.Release|x64.ActiveCfg = Release|x64
+		{EC376F27-2B64-4515-8357-1121134BFE5E}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A2DB7ADD-2AF2-47EB-A349-B10423FDE7F2}
+	EndGlobalSection
+EndGlobal
