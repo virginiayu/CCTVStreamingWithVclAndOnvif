@@ -41,6 +41,7 @@ namespace CCTVTester
         private MediaPlayer[] _mediaPlayers; //= new MediaPlayer[6];
         private readonly VideoView[] _videoViews; // = new VideoView[6];
         //private bool[] _isPlayerValid; // Track valid state
+        private bool _isLibVLCReady = false;
 
         // Onvif
         private Camera[] _cameras = new Camera[6];
@@ -50,8 +51,30 @@ namespace CCTVTester
         {
             InitializeComponent();
 
-            // Create a single LibVLC instance (shared across all players)
-            _libVLC = new LibVLC();
+            Task.Run(() =>
+            {
+                try
+                {
+                    LibVLCSharp.Shared.Core.Initialize();
+
+                    // Create a single LibVLC instance (shared across all players)
+                    _libVLC = new LibVLC(
+                        "--clock-synchro=0",       // Disable A/V sync (use only if no audio)
+                        "--no-audio",              // Disable audio if not needed
+                        "--network-caching=300",   // Reduce network caching
+                        "--no-stats",              // Disable stats
+                        "--no-sub-autodetect-file" // Don't look for subtitle files
+                    );
+
+                    _isLibVLCReady = true;
+                }
+                catch (Exception ex)
+                {
+                    Dispatcher.Invoke(() =>
+                        MessageBox.Show($"Failed to initialize LibVLC: {ex.Message}"));
+                }
+            });
+
 
             _mediaPlayers = new MediaPlayer[_cameraCount];
             _videoViews = new VideoView[_cameraCount];
@@ -62,17 +85,6 @@ namespace CCTVTester
             bindVideoView(); // bind video view on the v. begining preview pop up box
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-             
-            }
-            catch (Exception ex)
-            {
-                appendLog(ex.ToString());
-            }
-        }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -312,6 +324,13 @@ namespace CCTVTester
             try
             {
                 appendLog($"Disconnecting to camera(s) (if any) ...");
+
+                if (!_isLibVLCReady)
+                {
+                    appendLog($"LibVLC not initialed, please try again.");
+                    return;
+                }
+
                 disconnectCameras();
 
                 Task task = connectCameraAsync();

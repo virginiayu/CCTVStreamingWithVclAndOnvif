@@ -6,7 +6,7 @@
         xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF"
         xmlns:local="clr-namespace:CCTVTester"
         mc:Ignorable="d"
-        Title="CCTV LiveView Tester" Height="757.333" Width="945.833" Loaded="Window_Loaded" Closing="Window_Closing">
+        Title="CCTV LiveView Tester" Height="757.333" Width="945.833" Closing="Window_Closing">
     <Grid>
         <Label Content="CCTV Liveview Tester" HorizontalAlignment="Left" Margin="1,1,0,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
         <Label Content="CCTV1 (PTX)" HorizontalAlignment="Left" Margin="1,35,0,0" VerticalAlignment="Top" Height="23" Background="{x:Null}"/>
