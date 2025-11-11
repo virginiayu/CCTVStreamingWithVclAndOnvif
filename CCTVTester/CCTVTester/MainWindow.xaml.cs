@@ -1,28 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 #region VLC Streaming
 using LibVLCSharp.Shared;
 using LibVLCSharp.WPF;
 using MediaPlayer = LibVLCSharp.Shared.MediaPlayer;
-using Onvif.Core;
 using Onvif.Core.Client.Camera;
 using Onvif.Core.Client.Common;
 using Onvif.Core.Client.Camera.Requests;
 using Onvif.Core.Client.Ptz;
-using System.Threading;
 using System.Windows.Threading;
 #endregion
 
@@ -34,7 +22,7 @@ namespace CCTVTester
     public partial class MainWindow : Window
     {
         private readonly int _cameraCount = 6;
-        private string[] _rtsp = new string[6];
+        private string[] _rtsps = new string[6];
 
         // VLC
         private LibVLC _libVLC;
@@ -134,17 +122,17 @@ namespace CCTVTester
             }
         }
 
-        private string[] getRtspUrlDetails(int idx)
+        private string[] readRtspUrlDetails(int idx)
         {
             try
             {
-                if (idx < 0 || idx >= _rtsp.Count())
+                if (idx < 0 || idx >= _rtsps.Count())
                 {
                     appendLog($"Wrong index: {idx}");
                     return null;
                 }
 
-                string rtsp = _rtsp[idx];
+                string rtsp = _rtsps[idx];
                 string user = rtsp.Substring(7).Split(':')[0];
                 string pwd = rtsp.Substring(7).Split(':')[1].Split('@')[0];
                 string ip_n_port = rtsp.Substring(0, rtsp.Length - 5).Split('@')[1].Split('\\')[0];
@@ -161,6 +149,7 @@ namespace CCTVTester
             return null;
         }
 
+        #region PTZActions
         private async void PTZButton_Left_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -319,40 +308,6 @@ namespace CCTVTester
             }
         }
 
-        private void btn_connect_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                appendLog($"Disconnecting to camera(s) (if any) ...");
-
-                if (!_isLibVLCReady)
-                {
-                    appendLog($"LibVLC not initialed, please try again.");
-                    return;
-                }
-
-                disconnectCameras();
-
-                Task task = connectCameraAsync();
-            }
-            catch (Exception ex)
-            {
-                appendLog(ex.ToString());
-            }
-        }
-
-        private void btn_disconnect_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                disconnectCameras();
-            }
-            catch (Exception ex)
-            {
-                appendLog(ex.ToString());
-            }
-        }
-
         // move function
         private async Task CameraMoveAsync(Camera camera, float toRigth, float toTop)
         {
@@ -405,6 +360,43 @@ namespace CCTVTester
                 appendLog(ex.ToString());
             }
         }
+        #endregion
+
+        private void btn_connect_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                appendLog($"Disconnecting to camera(s) (if any) ...");
+
+                if (!_isLibVLCReady)
+                {
+                    appendLog($"LibVLC not initialed, please try again.");
+                    return;
+                }
+
+                disconnectCameras();
+
+                Task task = connectCameraAsync();
+            }
+            catch (Exception ex)
+            {
+                appendLog(ex.ToString());
+            }
+        }
+
+        private void btn_disconnect_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                disconnectCameras();
+            }
+            catch (Exception ex)
+            {
+                appendLog(ex.ToString());
+            }
+        }
+
+        
 
         // start camera
         private async Task connectCameraAsync()
@@ -414,17 +406,17 @@ namespace CCTVTester
                 appendLog($"Connecting to camera(s)...");
 
                 // assign ui textbox url to variables
-                _rtsp[0] = tbx_rtsp1.Text.Trim();
-                _rtsp[1] = tbx_rtsp2.Text.Trim();
-                _rtsp[2] = tbx_rtsp3.Text.Trim();
-                _rtsp[3] = tbx_rtsp4.Text.Trim();
-                _rtsp[4] = tbx_rtsp5.Text.Trim();
-                _rtsp[5] = tbx_rtsp6.Text.Trim();
+                _rtsps[0] = tbx_rtsp1.Text.Trim();
+                _rtsps[1] = tbx_rtsp2.Text.Trim();
+                _rtsps[2] = tbx_rtsp3.Text.Trim();
+                _rtsps[3] = tbx_rtsp4.Text.Trim();
+                _rtsps[4] = tbx_rtsp5.Text.Trim();
+                _rtsps[5] = tbx_rtsp6.Text.Trim();
 
 
                 for (int i = 0; i < _cameraCount; i++)
                 {
-                    if (string.IsNullOrEmpty(_rtsp[i]))
+                    if (string.IsNullOrEmpty(_rtsps[i]))
                     {
                         appendLog($"rtsp#{i} is empty, will not initiallize");
                         continue;
@@ -443,7 +435,7 @@ namespace CCTVTester
                                 _videoViews[i].MediaPlayer = _mediaPlayers[i];
                             }
 
-                            var media = new Media(_libVLC, new Uri(_rtsp[i]));
+                            var media = new Media(_libVLC, new Uri(_rtsps[i]));
                             _mediaPlayers[i].Play(media);
 
                             appendLog($"Camera {i + 1} started");
@@ -466,7 +458,7 @@ namespace CCTVTester
 
                     
                     // Initialize ONVIF Cameras for PTZ
-                    string[] rtsp = getRtspUrlDetails(i);
+                    string[] rtsp = readRtspUrlDetails(i);
                     var account = new Account(rtsp[0], rtsp[2], rtsp[3]);
                     _cameras[i] = Camera.Create(account, ex2 =>
                     {
